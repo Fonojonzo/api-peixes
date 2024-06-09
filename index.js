@@ -4,6 +4,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js'; // Importe o router de peixes
+//import SwaggerUI from 'swagger-ui'
+import SwaggerUI from 'swagger-ui-express'
+import swaggerDocument from './swagger.json' with { type: "json" };
 
 dotenv.config();
 
@@ -16,9 +19,10 @@ const corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 app.use(cors(corsOptions));
+app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 app.use(express.json());
 
-// MongoDB connection
+// Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -30,11 +34,11 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-// Adiciona as rotas ao aplicativo
+// Rotas
 app.use('/api/users', userRoutes);
 app.use('/api/peixes', peixeRoutes); // Use o router de peixes
 
-// Adicione este log para verificar se o servidor está ativo
+// Server ativo...
 app.listen(PORT, () => {
   console.log(`O servidor está ativo na porta ${PORT}`);
 });

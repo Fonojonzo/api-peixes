@@ -5,6 +5,25 @@ import Peixe from '../models/Peixe.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /users/:
+ *   post:
+ *     summary: Create a new user
+ *     description: Creates a new user with the provided details
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/definitions/User'
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: Bad Request
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/', async (req, res) => {
   try {
     if (!req.body.name) {
@@ -22,6 +41,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Login a user
+ *     description: Authenticates a user
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/definitions/UserLogin'
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -40,10 +78,30 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
-
-import mongoose from 'mongoose';
-
+/**
+ * @swagger
+ * /users/peixes/{userId}:
+ *   get:
+ *     summary: Get fish by user ID
+ *     description: Returns a list of fish associated with a specific user ID
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of fish
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Peixe'
+ *       500:
+ *         description: Internal server error
+ */
 router.get('/peixes/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -67,5 +125,47 @@ router.get('/peixes/:userId', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /users/peixes:
+ *   post:
+ *     summary: Add a fish to a user
+ *     description: Adds a fish to the specified user
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/definitions/PeixesUsuario'
+ *     responses:
+ *       201:
+ *         description: Fish added successfully
+ *       400:
+ *         description: Bad Request
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/peixes', async (req, res) => {
+  try {
+    const { ID_peixes, ID_usuario, Nome } = req.body;
+
+    if (!ID_peixes || !ID_usuario || !Nome) {
+      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+    }
+
+    const novoPeixe = new PeixesUsuario({
+      ID_peixes,
+      ID_usuario,
+      Nome
+    });
+
+    await novoPeixe.save();
+
+    console.log('Peixe adicionado:', novoPeixe);
+    res.status(201).json({ message: 'Peixe adicionado com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao adicionar peixe:', error.message);
+    res.status(500).json({ message: 'Erro ao adicionar peixe.', error: error.message });
+  }
+});
 
 export default router;

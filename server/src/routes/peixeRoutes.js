@@ -1,8 +1,32 @@
 import express from 'express';
-import Peixe  from '../models/Peixe.js';
+import Peixe from '../models/Peixe.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /peixes/{id}:
+ *   get:
+ *     summary: Get fish details by ID
+ *     description: Returns details of fish associated with a specific ID
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Fish details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/Peixe'
+ *       404:
+ *         description: Fish not found
+ *       500:
+ *         description: Internal server error
+ */
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
