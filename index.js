@@ -3,11 +3,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import fs from 'fs'; // Importe o módulo fs
+import { fileURLToPath } from 'url'; // Importe fileURLToPath para converter import.meta.url para um caminho de arquivo
 
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
+import fs from 'fs'; // Importe o módulo fs
 
 dotenv.config();
 
@@ -21,6 +22,11 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Converta import.meta.url para um caminho de arquivo
+const __filename = fileURLToPath(import.meta.url);
+// Obtenha o diretório pai do arquivo
+const __dirname = path.dirname(__filename);
 
 // Carregar o arquivo swagger.json usando readFileSync
 const swaggerDocument = JSON.parse(fs.readFileSync(path.resolve(__dirname, './swagger.json'), 'utf-8'));
