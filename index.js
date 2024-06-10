@@ -1,21 +1,16 @@
-import { fileURLToPath } from 'url'; // Importe a função fileURLToPath
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import path from 'path';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import { readFileSync } from 'fs';
+import YAML from 'yamljs';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-const __filename = fileURLToPath(import.meta.url); // Obtenha o nome do arquivo atual
-const __dirname = path.dirname(__filename); // Obtenha o diretório atual do arquivo
 
 // Middleware
 const corsOptions = {
@@ -25,10 +20,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Carregue o arquivo JSON do Swagger
-const swaggerDocument = JSON.parse(readFileSync(path.resolve(__dirname, 'swagger.json'), 'utf8'));
-
-// Use o Swagger UI
+// Serve Swagger UI
+const swaggerDocument = YAML.load('./swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
