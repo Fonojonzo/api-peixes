@@ -2,10 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
-import SwaggerUI from 'swagger-ui-express';
-import swaggerDocument from './swagger.json' with { type: "json" };
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
 
 dotenv.config();
 
@@ -18,8 +19,10 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
-app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 app.use(express.json());
+
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
