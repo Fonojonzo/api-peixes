@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from './swagger.json';
 
 dotenv.config();
 
@@ -17,9 +18,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Serve Swagger UI
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const swaggerDocument = require(path.join(__dirname, './swagger.json'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
