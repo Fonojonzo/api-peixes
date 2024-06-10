@@ -2,9 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import swaggerDocument from './swagger.json' with { type: "json" };
-import userRoutes from './server/src/routes/userRoutes.js'; 
-import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -16,13 +13,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-const CSS_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.1.0/swagger-ui.min.css';
-const options = {
-  customCssUrl: CSS_URL,
-};
-
-app.use('/api-docs', swaggerUi.serveFiles(swaggerDocument, options), swaggerUi.setup(swaggerDocument, options));
 
 // Middleware
 const corsOptions = {
@@ -44,7 +34,17 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+// Rota para o Swagger UI
+const swaggerDocument = require('./swagger.json');
+const CSS_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.1.0/swagger-ui.min.css';
+const options = {
+  customCssUrl: CSS_URL,
+};
+app.use('/api-docs', swaggerUi.serveFiles(swaggerDocument, options), swaggerUi.setup(swaggerDocument, options));
+
 // Rotas
+import userRoutes from './server/src/routes/userRoutes.js';
+import peixeRoutes from './server/src/routes/peixeRoutes.js';
 app.use('/api/users', userRoutes);
 app.use('/api/peixes', peixeRoutes);
 
