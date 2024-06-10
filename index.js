@@ -7,7 +7,8 @@ import { fileURLToPath } from 'url';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import * as swaggerDocument from './swagger.json';
+import swaggerDocument from './swagger.json';
+
 
 dotenv.config();
 
