@@ -31,7 +31,7 @@
   <script>
     window.onload = function() {
       const ui = SwaggerUIBundle({
-        url: "./swagger.json",
+        url: "/swagger.json",
         dom_id: '#swagger-ui',
         presets: [
           SwaggerUIBundle.presets.apis,
@@ -40,7 +40,7 @@
         layout: "StandaloneLayout",
         deepLinking: true
       });
-
+  
       window.ui = ui;
     }
   </script>

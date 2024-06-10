@@ -36,6 +36,7 @@ db.once('open', () => {
 
 // Rota para o Swagger UI
 app.use('/api-docs', express.static(path.join(__dirname, 'public')));
+app.use('/swagger.json', express.static(path.join(__dirname, 'swagger.json')));
 
 // Endpoint para servir a documentação Swagger
 app.get('/api-docs', (req, res) => {
