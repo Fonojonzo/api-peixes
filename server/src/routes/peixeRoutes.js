@@ -7,8 +7,8 @@ const router = express.Router();
  * @swagger
  * /peixes/{id}:
  *   get:
- *     summary: Get fish details by ID
- *     description: Returns details of fish associated with a specific ID
+ *     summary: Obter detalhes do peixe por ID
+ *     description: Retorna os detalhes do peixe associado a um ID específico
  *     parameters:
  *       - name: id
  *         in: path
@@ -17,16 +17,19 @@ const router = express.Router();
  *           type: string
  *     responses:
  *       200:
- *         description: Fish details
+ *         description: Detalhes do peixe
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/definitions/Peixe'
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Peixe'
  *       404:
- *         description: Fish not found
+ *         description: Peixe não encontrado
  *       500:
- *         description: Internal server error
+ *         description: Erro interno do servidor
  */
+
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
