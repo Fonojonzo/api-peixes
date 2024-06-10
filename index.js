@@ -6,7 +6,7 @@ import path from 'path';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
+import { readFileSync } from 'fs'; // Importe a função readFileSync para ler o arquivo JSON
 
 dotenv.config();
 
@@ -21,7 +21,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Serve Swagger UI
+// Carregue o arquivo JSON do Swagger
+const swaggerDocument = JSON.parse(readFileSync(path.resolve(__dirname, 'swagger.json'), 'utf8'));
+
+// Use o Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
