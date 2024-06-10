@@ -42,6 +42,9 @@ const options = {
 };
 app.use('/api-docs', swaggerUi.serveFiles(swaggerDocument, options), swaggerUi.setup(swaggerDocument, options));
 
+// Servir arquivos estáticos
+app.use(express.static('public'));
+
 // Rotas
 import userRoutes from './server/src/routes/userRoutes.js';
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
