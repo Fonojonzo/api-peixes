@@ -3,9 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './server/src/routes/userRoutes.js'; 
-import peixeRoutes from './server/src/routes/peixeRoutes.js'; // Importe o router de peixes
-//import SwaggerUI from 'swagger-ui'
-import SwaggerUI from 'swagger-ui-express'
+import peixeRoutes from './server/src/routes/peixeRoutes.js';
+import SwaggerUI from 'swagger-ui-express';
 import swaggerDocument from './swagger.json' with { type: "json" };
 
 dotenv.config();
@@ -16,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 const corsOptions = {
   origin: 'https://pi-peixes-front.netlify.app',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
@@ -36,7 +35,7 @@ db.once('open', () => {
 
 // Rotas
 app.use('/api/users', userRoutes);
-app.use('/api/peixes', peixeRoutes); // Use o router de peixes
+app.use('/api/peixes', peixeRoutes);
 
 // Server ativo...
 app.listen(PORT, () => {
