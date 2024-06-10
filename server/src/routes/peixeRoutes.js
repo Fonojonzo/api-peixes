@@ -3,33 +3,6 @@ import Peixe from '../models/Peixe.js';
 
 const router = express.Router();
 
-/**
- * @swagger
- * api/peixes/{id}:
- *   get:
- *     summary: Obter detalhes do peixe por ID
- *     description: Retorna os detalhes do peixe associado a um ID específico
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Detalhes do peixe
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/definitions/Peixe'
- *       404:
- *         description: Peixe não encontrado
- *       500:
- *         description: Erro interno do servidor
- */
-
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
