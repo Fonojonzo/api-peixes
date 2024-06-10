@@ -1,27 +1,18 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
-
-dotenv.config();
+import swaggerDocument from './swagger.json';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-const corsOptions = {
-  origin: 'https://pi-peixes-front.netlify.app',
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve Swagger UI
-const swaggerDocument = YAML.load('./swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
