@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /peixes/{id}:
+ * api/peixes/{id}:
  *   get:
  *     summary: Obter detalhes do peixe por ID
  *     description: Retorna os detalhes do peixe associado a um ID específico
