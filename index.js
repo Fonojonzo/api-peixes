@@ -19,7 +19,7 @@ app.use(express.json());
 
 // Serve Swagger UI
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const swaggerDocument = require(path.join(__dirname, 'swagger.json'));
+const swaggerDocument = require(path.join(__dirname, './swagger.json'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
