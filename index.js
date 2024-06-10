@@ -3,12 +3,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
-
+import swaggerDocument from './swagger.json'; // Adicione essa linha
 
 dotenv.config();
 
@@ -16,9 +14,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: 'https://pi-peixes-front.netlify.app',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
+// Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
