@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
+import userRoutes from './server/src/routes/userRoutes.js'; 
+import peixeRoutes from './server/src/routes/peixeRoutes.js';
+import path from 'path';
 
 dotenv.config();
 
@@ -17,13 +20,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const swaggerOptions = {
-  swaggerOptions: {
-    url: 'https://url-do-seu-swagger.json', // Substitua pela URL do seu arquivo swagger.json
-  },
-};
+const swaggerDocumentPath = path.resolve(__dirname, './swagger.json');
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, swaggerOptions));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentPath));
 
 // Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
