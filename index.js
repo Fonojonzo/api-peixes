@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'; // Importe a função fileURLToPath
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -6,12 +7,15 @@ import path from 'path';
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import { readFileSync } from 'fs'; // Importe a função readFileSync para ler o arquivo JSON
+import { readFileSync } from 'fs';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const __filename = fileURLToPath(import.meta.url); // Obtenha o nome do arquivo atual
+const __dirname = path.dirname(__filename); // Obtenha o diretório atual do arquivo
 
 // Middleware
 const corsOptions = {
