@@ -2,15 +2,27 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json' with { type: "json" };
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
+import swaggerUi from 'swagger-ui-express';
+import { fileURLToPath } from 'url';
 import path from 'path';
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const CSS_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.1.0/swagger-ui.min.css';
+const options = {
+  customCssUrl: CSS_URL,
+};
+
+app.use('/api-docs', swaggerUi.serveFiles(swaggerDocument, options), swaggerUi.setup(swaggerDocument, options));
 
 // Middleware
 const corsOptions = {
@@ -19,10 +31,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-
-const swaggerDocumentPath = path.resolve(__dirname, './swagger.json');
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentPath));
 
 // Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
