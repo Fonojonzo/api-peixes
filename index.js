@@ -2,13 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url'; // Importe fileURLToPath para converter import.meta.url para um caminho de arquivo
-
+import swaggerDocument from './swagger.json' with { type: "json" };
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
-import swaggerUi from 'swagger-ui-express';
-import fs from 'fs'; // Importe o módulo fs
+import SwaggerUI from 'swagger-ui-express';
+
 
 dotenv.config();
 
@@ -22,18 +20,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 
-// Converta import.meta.url para um caminho de arquivo
-const __filename = fileURLToPath(import.meta.url);
-// Obtenha o diretório pai do arquivo
-const __dirname = path.dirname(__filename);
-
-// Carregar o arquivo swagger.json usando readFileSync
-const swaggerDocument = JSON.parse(fs.readFileSync(path.resolve('./swagger.json'), 'utf-8'));
-
-
-// Serve Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
