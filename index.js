@@ -4,9 +4,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json' assert { type: 'json' }; // Adicione 'assert { type: 'json' }' aqui
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
