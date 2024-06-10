@@ -13,6 +13,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
 // Middleware
 const corsOptions = {
   origin: 'https://pi-peixes-front.netlify.app',
