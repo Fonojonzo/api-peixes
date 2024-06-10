@@ -3,10 +3,11 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs'; // Importe o módulo fs
+
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json'; // Adicione essa linha
 
 dotenv.config();
 
@@ -20,6 +21,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Carregar o arquivo swagger.json usando readFileSync
+const swaggerDocument = JSON.parse(fs.readFileSync(path.resolve(__dirname, './swagger.json'), 'utf-8'));
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
