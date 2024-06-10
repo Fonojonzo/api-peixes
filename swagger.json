@@ -12,10 +12,10 @@
     }
   ],
   "paths": {
-    "/users/": {
+    "/api/users/": {
       "post": {
-        "summary": "Create a new user",
-        "description": "Creates a new user with the provided details",
+        "summary": "Criar um novo usuário",
+        "description": "Cria um novo usuário com os detalhes fornecidos",
         "requestBody": {
           "content": {
             "application/json": {
@@ -27,21 +27,21 @@
         },
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "Usuário criado com sucesso"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Requisição inválida"
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Erro interno do servidor"
           }
         }
       }
     },
-    "/users/login": {
+    "/api/users/login": {
       "post": {
-        "summary": "Login a user",
-        "description": "Authenticates a user",
+        "summary": "Login de usuário",
+        "description": "Autentica um usuário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -53,21 +53,21 @@
         },
         "responses": {
           "200": {
-            "description": "Login successful"
+            "description": "Login bem-sucedido"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Não autorizado"
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Erro interno do servidor"
           }
         }
       }
     },
-    "/users/peixes/{userId}": {
+    "/api/users/peixes/{userId}": {
       "get": {
-        "summary": "Get fish by user ID",
-        "description": "Returns a list of fish associated with a specific user ID",
+        "summary": "Obter peixes por ID de usuário",
+        "description": "Retorna uma lista de peixes associados a um ID de usuário específico",
         "parameters": [
           {
             "name": "userId",
@@ -80,7 +80,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of fish",
+            "description": "Lista de peixes",
             "content": {
               "application/json": {
                 "schema": {
@@ -93,7 +93,7 @@
             }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Erro interno do servidor"
           }
         }
       }
