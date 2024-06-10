@@ -88,4 +88,14 @@ router.post('/peixes', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error.message);
+    res.status(500).json({ message: 'Erro ao buscar usuários.', error: error.message });
+  }
+});
+
 export default router;
