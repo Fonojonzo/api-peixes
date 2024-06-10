@@ -1,148 +1,149 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "API de Peixes",
-    "version": "1.0.0",
-    "description": "API para gerenciar informações de usuários e peixes."
-  },
-  "servers": [
-    {
-      "url": "https://api-peixes-cxxg.vercel.app",
-      "description": "Servidor Local"
-    }
-  ],
-  "paths": {
-    "/api/users/": {
-      "post": {
-        "summary": "Criar um novo usuário",
-        "description": "Cria um novo usuário com os detalhes fornecidos",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Usuário criado com sucesso"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "500": {
-            "description": "Erro interno do servidor"
-          }
-        }
-      }
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Peixes",
+      "version": "1.0.0",
+      "description": "API para gerenciar informações de usuários e peixes."
     },
-    "/api/users/login": {
-      "post": {
-        "summary": "Login de usuário",
-        "description": "Autentica um usuário",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserLogin"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login bem-sucedido"
-          },
-          "401": {
-            "description": "Não autorizado"
-          },
-          "500": {
-            "description": "Erro interno do servidor"
-          }
-        }
+    "servers": [
+      {
+        "url": "https://api-peixes-cxxg.vercel.app",
+        "description": "Servidor Local"
       }
-    },
-    "/api/users/peixes/{userId}": {
-      "get": {
-        "summary": "Obter peixes por ID dee usuário",
-        "description": "Retorna uma lista de peixes associados a um ID de usuário específico",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lista de peixes",
+    ],
+    "paths": {
+      "/api/users/": {
+        "post": {
+          "summary": "Criar um novo usuário",
+          "description": "Cria um novo usuário com os detalhes fornecidos",
+          "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Peixe"
-                  }
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
           },
-          "500": {
-            "description": "Erro interno do servidor"
+          "responses": {
+            "201": {
+              "description": "Usuário criado com sucesso"
+            },
+            "400": {
+              "description": "Requisição inválida"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/api/users/login": {
+        "post": {
+          "summary": "Login de usuário",
+          "description": "Autentica um usuário",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLogin"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login bem-sucedido"
+            },
+            "401": {
+              "description": "Não autorizado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/api/users/peixes/{userId}": {
+        "get": {
+          "summary": "Obter peixes por ID dee usuário",
+          "description": "Retorna uma lista de peixes associados a um ID de usuário específico",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de peixes",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Peixe"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
           }
         }
       }
-    }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
           },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
+          "required": ["name", "email", "password"]
         },
-        "required": ["name", "email", "password"]
-      },
-      "UserLogin": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
+        "UserLogin": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
           },
-          "password": {
-            "type": "string"
-          }
+          "required": ["email", "password"]
         },
-        "required": ["email", "password"]
-      },
-      "Peixe": {
-        "type": "object",
-        "properties": {
-          "ID_peixes": {
-            "type": "string"
+        "Peixe": {
+          "type": "object",
+          "properties": {
+            "ID_peixes": {
+              "type": "string"
+            },
+            "ID_usuario": {
+              "type": "string"
+            },
+            "Nome": {
+              "type": "string"
+            }
           },
-          "ID_usuario": {
-            "type": "string"
-          },
-          "Nome": {
-            "type": "string"
-          }
-        },
-        "required": ["ID_peixes", "ID_usuario", "Nome"]
+          "required": ["ID_peixes", "ID_usuario", "Nome"]
+        }
       }
     }
   }
-}
+  
