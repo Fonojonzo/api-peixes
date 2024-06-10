@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
+import swaggerDocument from './swagger.json' assert { type: 'json' }; // Adicione 'assert { type: 'json' }' aqui
 
 dotenv.config();
 
