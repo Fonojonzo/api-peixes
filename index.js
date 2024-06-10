@@ -29,7 +29,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Carregar o arquivo swagger.json usando readFileSync
-const swaggerDocument = JSON.parse(fs.readFileSync(path.resolve(__dirname, './swagger.json'), 'utf-8'));
+const swaggerDocument = JSON.parse(fs.readFileSync(path.resolve('./swagger.json'), 'utf-8'));
+
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
