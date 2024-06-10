@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
 
 /**
  * @swagger
- * /users/peixes/{userId}:
+ * api/users/peixes/{userId}:
  *   get:
  *     summary: Get fish by user ID
  *     description: Returns a list of fish associated with a specific user ID
@@ -127,9 +127,9 @@ router.get('/peixes/:userId', async (req, res) => {
 
 /**
  * @swagger
- * /users/peixes:
+ * api/users/peixes:
  *   post:
- *     summary: Add a fish to a user
+ *     summary: Adiciona um peixe para o usuário.
  *     description: Adds a fish to the specified user
  *     requestBody:
  *       content:
