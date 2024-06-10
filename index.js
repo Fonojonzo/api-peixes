@@ -5,14 +5,20 @@ import dotenv from 'dotenv';
 import swaggerDocument from './swagger.json' with { type: "json" };
 import userRoutes from './server/src/routes/userRoutes.js'; 
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
-import SwaggerUI from 'swagger-ui-express';
+import swaggerUi from 'swagger-ui-express';
+const CSS_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.1.0/swagger-ui.min.css';
+const BUNDLE_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.1.0/swagger-ui-bundle.js';
+const PRESET_URL = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@4.1.0/swagger-ui-standalone-preset.js';
+
+const options = {
+  customCssUrl: CSS_URL,
+};
 
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
 
 // Middleware
 const corsOptions = {
@@ -21,8 +27,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 
+
+app.use('/api-docs', swaggerUi.serveFiles(swaggerDocument, options), swaggerUi.setup(swaggerDocument, options));
 
 // Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
