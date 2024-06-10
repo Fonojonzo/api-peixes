@@ -2,11 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import swaggerDocument from './swagger.json' with { type: "json" };
-import userRoutes from './server/src/routes/userRoutes.js'; 
-import peixeRoutes from './server/src/routes/peixeRoutes.js';
 import swaggerUi from 'swagger-ui-express';
-
+import path from 'path';
 
 dotenv.config();
 
@@ -21,9 +18,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 // Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -36,7 +30,16 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+// Rota para o Swagger UI
+const swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Servir arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Rotas
+import userRoutes from './server/src/routes/userRoutes.js';
+import peixeRoutes from './server/src/routes/peixeRoutes.js';
 app.use('/api/users', userRoutes);
 app.use('/api/peixes', peixeRoutes);
 
