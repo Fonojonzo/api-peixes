@@ -15,11 +15,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-//const corsOptions = {
+const corsOptions = {
  //origin: 'https://pi-peixes-front.netlify.app',
-  //optionsSuccessStatus: 200
-//};
-//app.use(cors(corsOptions));
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
