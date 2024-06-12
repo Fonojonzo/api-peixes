@@ -64,30 +64,6 @@ router.get('/peixes/:userId', async (req, res) => {
 });
 
 
-router.post('/peixes', async (req, res) => {
-  try {
-    const { ID_peixes, ID_usuario, Nome } = req.body;
-
-    if (!ID_peixes || !ID_usuario || !Nome) {
-      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
-    }
-
-    const novoPeixe = new PeixesUsuario({
-      ID_peixes,
-      ID_usuario,
-      Nome
-    });
-
-    await novoPeixe.save();
-
-    console.log('Peixe adicionado:', novoPeixe);
-    res.status(201).json({ message: 'Peixe adicionado com sucesso.' });
-  } catch (error) {
-    console.error('Erro ao adicionar peixe:', error.message);
-    res.status(500).json({ message: 'Erro ao adicionar peixe.', error: error.message });
-  }
-});
-
 router.get('/', async (req, res) => {
   try {
     const users = await User.find();
@@ -97,5 +73,8 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Erro ao buscar usuários.', error: error.message });
   }
 });
+
+
+
 
 export default router;
