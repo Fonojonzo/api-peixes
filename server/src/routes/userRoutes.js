@@ -41,8 +41,8 @@ router.post('/login', async (req, res) => {
 
 router.get('/peixes/:userId', async (req, res) => {
   try {
-    console.log('User ID LOG:', userId);
     const userId = req.params.userId;
+    console.log('User ID LOG:', userId); // Movido para depois da inicialização de userId
 
     const peixesUsuario = await Peixe.find({ ID_usuario: userId });
 
