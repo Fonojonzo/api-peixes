@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
 
 const peixeSchema = new mongoose.Schema({
-  _id: {
-    type: Number,
-    required: true,
-  },
   Especie: {
     type: String,
     required: true,
   },
-  Alimentacao: {
+  Nome: {
+    type: String,
+    required: true,
+  },
+  Tempo_alimentacao: {
     type: String,
     required: true,
   },
@@ -17,7 +17,7 @@ const peixeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  Tempo_alimentacao: {
+  Alimentacao: {
     type: String,
     required: true,
   },

@@ -26,4 +26,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
+router.post('/', async (req, res) => {
+  try {
+    const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem } = req.body;
+
+    const novoPeixe = new Peixe({
+      Especie,
+      Nome,
+      Tempo_alimentacao,
+      Quantidade,
+      Alimentacao,
+      Imagem,
+    });
+
+    await novoPeixe.save();
+
+    res.status(201).json({ message: 'Peixe cadastrado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao cadastrar peixe:', error);
+    res.status(500).json({ message: 'Erro ao cadastrar peixe' });
+  }
+});
+
+
 export default router;
