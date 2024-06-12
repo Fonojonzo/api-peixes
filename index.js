@@ -47,6 +47,7 @@ app.get('/api-docs', (req, res) => {
 // Rotas
 import userRoutes from './server/src/routes/userRoutes.js';
 import peixeRoutes from './server/src/routes/peixeRoutes.js';
+
 app.use('/api/users', userRoutes);
 app.use('/api/peixes', peixeRoutes);
 
