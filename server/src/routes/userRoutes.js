@@ -1,6 +1,5 @@
 import express from 'express';
 import User from '../models/User.js';
-import PeixesUsuario from '../models/Peixes_Usuario.js';
 import Peixe from '../models/Peixe.js';
 
 const router = express.Router();
@@ -45,7 +44,7 @@ router.get('/peixes/:userId', async (req, res) => {
     console.log('User ID LOG:', userId);
     const userId = req.params.userId;
 
-    const peixesUsuario = await PeixesUsuario.find({ ID_usuario: userId });
+    const peixesUsuario = await Peixe.find({ ID_usuario: userId });
 
     // Mapeie os IDs dos peixes para buscar os dados completos dos peixes
     const peixes = await Promise.all(peixesUsuario.map(async (peixeUsuario) => {
