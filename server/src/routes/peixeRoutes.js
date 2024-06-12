@@ -26,26 +26,34 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
-router.post('/', async (req, res) => {
+router.post('/peixes', async (req, res) => {
   try {
-    const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem } = req.body;
 
-    const novoPeixe = new Peixe({
+    console.log('Rota de salvar peixes foi chamada.'); 
+    
+    const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem, ID_usuario } = req.body;
+
+    if (!Especie || !Nome || !Tempo_alimentacao || !Quantidade || !Alimentacao || !Imagem || !ID_usuario) {
+      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+    }
+
+    const novoPeixe = new PeixesUsuario({
       Especie,
       Nome,
       Tempo_alimentacao,
       Quantidade,
       Alimentacao,
       Imagem,
+      ID_usuario
     });
 
     await novoPeixe.save();
 
-    res.status(201).json({ message: 'Peixe cadastrado com sucesso' });
+    console.log('Peixe adicionado:', novoPeixe);
+    res.status(201).json({ message: 'Peixe adicionado com sucesso.' });
   } catch (error) {
-    console.error('Erro ao cadastrar peixe:', error);
-    res.status(500).json({ message: 'Erro ao cadastrar peixe' });
+    console.error('Erro ao adicionar peixe:', error.message);
+    res.status(500).json({ message: 'Erro ao adicionar peixe.', error: error.message });
   }
 });
 
