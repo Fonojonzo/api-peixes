@@ -1,5 +1,6 @@
 import express from 'express';
 import Peixe from '../models/Peixe.js';
+import PeixesUsuario from '../models/Peixes_Usuario.js';
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-//Post
+//Post caminho -> /api/peixes
 router.post('/', async (req, res) => {
   try {
 
