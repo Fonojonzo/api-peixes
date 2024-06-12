@@ -71,6 +71,44 @@ router.get('/', async (req, res) => {
   }
 });
 
+// atualizar usuario
+router.put('/:id', async (req, res) => {
+  try {
+
+    const userId = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true, runValidators: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'O usuário não foi encontrado.' });
+    }
+
+    res.json({ message: 'O usuário foi atualizado com sucesso!', user: updatedUser });
+
+  } catch (error) {
+    console.error('Erro ao atualizar usuário:', error.message);
+    res.status(500).json({ message: 'Erro ao atualizar o usuário: ', error: error.message });
+  }
+});
+
+// Deletar uuasiro
+router.delete('/:id', async (req, res) => {
+  try {
+
+    const userId = req.params.id;
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'Usuário não existe...' });
+    }
+
+    res.json({ message: 'O usuário foi deletado com sucesso' });
+
+  } catch (error) {
+    console.error('Erro ao deletar usuário:', error.message);
+    res.status(500).json({ message: 'Erro ao deletar usuário.', error: error.message });
+  }
+
+});
 
 
 

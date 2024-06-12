@@ -24,7 +24,9 @@
   "paths": {
     "/usuarios": {
       "get": {
-        "tags": ["Usuários"],
+        "tags": [
+          "Usuários"
+        ],
         "summary": "Lista todos os usuários",
         "responses": {
           "200": {
@@ -33,7 +35,9 @@
         }
       },
       "post": {
-        "tags": ["Usuários"],
+        "tags": [
+          "Usuários"
+        ],
         "summary": "Cria um novo usuário",
         "requestBody": {
           "content": {
@@ -72,7 +76,9 @@
     },
     "/usuarios/login": {
       "post": {
-        "tags": ["Usuários"],
+        "tags": [
+          "Usuários"
+        ],
         "summary": "Realiza login de usuário",
         "requestBody": {
           "content": {
@@ -105,9 +111,83 @@
         }
       }
     },
+    "/usuarios/{id}": {
+      "put": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Atualiza um usuário existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário a ser atualizado"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Deleta um usuário existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário a ser deletado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
     "/peixes": {
       "get": {
-        "tags": ["Peixes"],
+        "tags": [
+          "Peixes"
+        ],
         "summary": "Lista todos os peixes",
         "responses": {
           "200": {
@@ -118,7 +198,9 @@
     },
     "/peixes/{id}": {
       "get": {
-        "tags": ["Peixes"],
+        "tags": [
+          "Peixes"
+        ],
         "summary": "Busca um peixe pelo ID",
         "parameters": [
           {
@@ -141,7 +223,9 @@
         }
       },
       "put": {
-        "tags": ["Peixes"],
+        "tags": [
+          "Peixes"
+        ],
         "summary": "Atualiza um peixe existente",
         "parameters": [
           {
@@ -160,25 +244,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "nome": {
+                  "Nome": {
                     "type": "string"
                   },
-                  "especie": {
+                  "Especie": {
                     "type": "string"
                   },
-                  "tamanho": {
-                    "type": "number"
+                  "Alimentacao": {
+                    "type": "string"
                   },
-                  "peso": {
-                    "type": "number"
+                  "Quantidade": {
+                    "type": "integer"
+                  },
+                  "TempoAlimentacao": {
+                    "type": "string"
                   }
-                },
-                "required": [
-                  "nome",
-                  "especie",
-                  "tamanho",
-                  "peso"
-                ]
+                }
               }
             }
           }
@@ -193,7 +274,9 @@
         }
       },
       "delete": {
-        "tags": ["Peixes"],
+        "tags": [
+          "Peixes"
+        ],
         "summary": "Deleta um peixe existente",
         "parameters": [
           {
@@ -212,6 +295,76 @@
           },
           "404": {
             "description": "Peixe não encontrado"
+          }
+        }
+      }
+    },
+    "/peixes/usuario/{userId}": {
+      "get": {
+        "tags": [
+          "Peixes"
+        ],
+        "summary": "Lista todos os peixes associados a um usuário",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "Peixe": {
+        "type": "object",
+        "properties": {
+          "Nome": {
+            "type": "string"
+          },
+          "Especie": {
+            "type": "string"
+          },
+          "Alimentacao": {
+            "type": "string"
+          },
+          "Quantidade": {
+            "type": "integer"
+          },
+          "TempoAlimentacao": {
+            "type": "string"
           }
         }
       }
