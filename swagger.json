@@ -12,7 +12,7 @@
       }
     ],
     "paths": {
-      "api/peixes": {
+      "/api/peixes": {
         "post": {
           "summary": "Adicionar um novo peixe",
           "description": "Adiciona um novo peixe à coleção de peixes do usuário",
@@ -46,6 +46,7 @@
           "type": "object",
           "required": [
             "ID_usuario",
+            "Nome",
             "Especie",
             "Alimentacao",
             "Quantidade",
@@ -54,6 +55,9 @@
           ],
           "properties": {
             "ID_usuario": {
+              "type": "string"
+            },
+            "Nome": {
               "type": "string"
             },
             "Especie": {
@@ -76,3 +80,4 @@
       }
     }
   }
+  
