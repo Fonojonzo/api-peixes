@@ -9,10 +9,11 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const peixesUsuario = await Peixe.find({ ID_usuario: id });
 
-    if (!peixesUsuario) {
-      return res.status(404).json({ message: 'Peixes não encontrados para este usuário' });
+    if (peixesUsuario.length === 0) {
+      return res.status(404).json({ message: 'Nenhum peixe encontrado para este usuário' });
     }
 
+    console.log('Peixes encontrados:', peixesUsuario);
     res.status(200).json(peixesUsuario);
   } catch (error) {
     console.error('Erro ao buscar peixes:', error);
