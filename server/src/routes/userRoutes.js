@@ -41,8 +41,8 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/peixes/:userId', async (req, res) => {
-  console.log('User ID LOG:', userId);
   try {
+    console.log('User ID LOG:', userId);
     const userId = req.params.userId;
 
     const peixesUsuario = await PeixesUsuario.find({ ID_usuario: userId });
