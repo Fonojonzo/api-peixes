@@ -32,7 +32,8 @@ router.post('/', async (req, res) => {
   try {
     console.log('Rota de salvar peixes foi chamada.'); 
     
-    const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem, ID_usuario } = req.body;
+    const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem } = req.body;
+    const ID_usuario = req.session.idUsuario; // Assumindo que você armazena o ID do usuário na sessão
 
     // Verifica se todos os campos obrigatórios foram fornecidos
     if (!Especie || !Nome || !Tempo_alimentacao || !Quantidade || !Alimentacao || !Imagem || !ID_usuario) {
