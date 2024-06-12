@@ -12,10 +12,96 @@
       }
     ],
     "paths": {
-      "/api/peixes/": {
+      "/api/users/": {
+        "post": {
+          "summary": "Criar um novo usuário",
+          "description": "Cria um novo usuário com os detalhes fornecidos",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Usuário criado com sucesso"
+            },
+            "400": {
+              "description": "Requisição inválida"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
         "get": {
-          "summary": "Obter todos os peixes",
-          "description": "Retorna uma lista de todos os peixes",
+          "summary": "Obter todos os usuários",
+          "description": "Retorna uma lista de todos os usuários",
+          "responses": {
+            "200": {
+              "description": "Lista de usuários",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/api/users/login": {
+        "post": {
+          "summary": "Login de um usuário",
+          "description": "Autentica um usuário",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLogin"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login bem-sucedido"
+            },
+            "401": {
+              "description": "Não autorizado"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      },
+      "/api/users/peixes/{userId}": {
+        "get": {
+          "summary": "Obter peixes por ID de usuário",
+          "description": "Retorna uma lista de peixes associados a um ID de usuário específico",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
           "responses": {
             "200": {
               "description": "Lista de peixes",
@@ -29,31 +115,6 @@
                   }
                 }
               }
-            },
-            "500": {
-              "description": "Erro interno do servidor"
-            }
-          }
-        },
-        "post": {
-          "summary": "Criar um novo peixe",
-          "description": "Cria um novo peixe com os detalhes fornecidos",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PeixeCreate"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Peixe criado com sucesso"
-            },
-            "400": {
-              "description": "Requisição inválida"
             },
             "500": {
               "description": "Erro interno do servidor"
@@ -157,6 +218,33 @@
             }
           }
         }
+      },
+      "/api/peixes/": {
+        "post": {
+          "summary": "Criar um novo peixe",
+          "description": "Cria um novo peixe com os detalhes fornecidos",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PeixeCreate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Peixe criado com sucesso"
+            },
+            "400": {
+              "description": "Requisição inválida"
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
       }
     },
     "components": {
@@ -173,126 +261,125 @@
               "type": "string"
             },
             "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            }
+             
+    "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
-        },
-        "UserLogin": {
-          "type": "object",
-          "required": [
-            "email",
-            "password"
-          ],
-          "properties": {
-            "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            }
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
-        },
-        "Peixe": {
-          "type": "object",
-          "required": [
-            "ID_usuario",
-            "Nome",
-            "Especie",
-            "Alimentacao",
-            "Quantidade",
-            "Tempo_alimentacao",
-            "Imagem"
-          ],
-          "properties": {
-            "ID_usuario": {
-              "type": "string"
-            },
-            "Nome": {
-              "type": "string"
-            },
-            "Especie": {
-              "type": "string"
-            },
-            "Alimentacao": {
-              "type": "string"
-            },
-            "Quantidade": {
-              "type": "number"
-            },
-            "Tempo_alimentacao": {
-              "type": "string"
-            },
-            "Imagem": {
-              "type": "string"
-            }
+        }
+      },
+      "Peixe": {
+        "type": "object",
+        "required": [
+          "ID_usuario",
+          "Nome",
+          "Especie",
+          "Alimentacao",
+          "Quantidade_comida",
+          "Vezes_comida_dia",
+          "Imagem_url"
+        ],
+        "properties": {
+          "ID_usuario": {
+            "type": "string"
+          },
+          "Nome": {
+            "type": "string"
+          },
+          "Especie": {
+            "type": "string"
+          },
+          "Alimentacao": {
+            "type": "string"
+          },
+          "Quantidade_comida": {
+            "type": "number"
+          },
+          "Vezes_comida_dia": {
+            "type": "number"
+          },
+          "Imagem_url": {
+            "type": "string"
           }
-        },
-        "PeixeCreate": {
-          "type": "object",
-          "required": [
-            "ID_usuario",
-            "Nome",
-            "Especie",
-            "Alimentacao",
-            "Quantidade",
-            "Tempo_alimentacao",
-            "Imagem"
-          ],
-          "properties": {
-            "ID_usuario": {
-              "type": "string"
-            },
-            "Nome": {
-              "type": "string"
-            },
-            "Especie": {
-              "type": "string"
-            },
-            "Alimentacao": {
-              "type": "string"
-            },
-            "Quantidade": {
-              "type": "number"
-            },
-            "Tempo_alimentacao": {
-              "type": "string"
-            },
-            "Imagem": {
-              "type": "string"
-            }
+        }
+      },
+      "PeixeCreate": {
+        "type": "object",
+        "required": [
+          "ID_usuario",
+          "Nome",
+          "Especie",
+          "Alimentacao",
+          "Quantidade_comida",
+          "Vezes_comida_dia",
+          "Imagem_url"
+        ],
+        "properties": {
+          "ID_usuario": {
+            "type": "string"
+          },
+          "Nome": {
+            "type": "string"
+          },
+          "Especie": {
+            "type": "string"
+          },
+          "Alimentacao": {
+            "type": "string"
+          },
+          "Quantidade_comida": {
+            "type": "number"
+          },
+          "Vezes_comida_dia": {
+            "type": "number"
+          },
+          "Imagem_url": {
+            "type": "string"
           }
-        },
-        "PeixeUpdate": {
-          "type": "object",
-          "properties": {
-            "ID_usuario": {
-              "type": "string"
-            },
-            "Nome": {
-              "type": "string"
-            },
-            "Especie": {
-              "type": "string"
-            },
-            "Alimentacao": {
-              "type": "string"
-            },
-            "Quantidade": {
-              "type": "number"
-            },
-            "Tempo_alimentacao": {
-              "type": "string"
-            },
-            "Imagem": {
-              "type": "string"
-            }
+        }
+      },
+      "PeixeUpdate": {
+        "type": "object",
+        "properties": {
+          "ID_usuario": {
+            "type": "string"
+          },
+          "Nome": {
+            "type": "string"
+          },
+          "Especie": {
+            "type": "string"
+          },
+          "Alimentacao": {
+            "type": "string"
+          },
+          "Quantidade_comida": {
+            "type": "number"
+          },
+          "Vezes_comida_dia": {
+            "type": "number"
+          },
+          "Imagem_url": {
+            "type": "string"
           }
         }
       }
     }
   }
-  
-  
+}
