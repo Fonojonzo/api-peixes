@@ -1,201 +1,203 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "API de Gerenciamento de Peixes",
-      "version": "1.0.0",
-      "description": "API para gerenciar informações de peixes"
-    },
-    "servers": [
-      {
-        "url": "https://api-peixes.vercel.app/"
-      }
-    ],
-    "paths": {
-      "/api/peixes": {
-        "get": {
-          "summary": "Lista todos os peixes",
-          "responses": {
-            "200": {
-              "description": "Lista de peixes",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Peixe"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "post": {
-          "summary": "Cria um novo peixe",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PeixeInput"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Peixe criado com sucesso"
-            }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Gerenciamento de Usuários e Peixes",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de usuários e peixes em um sistema."
+  },
+  "servers": [
+    {
+      "url": "https://api-peixes.vercel.app",
+      "description": "Servidor de produção"
+    }
+  ],
+  "paths": {
+    "/usuarios": {
+      "get": {
+        "summary": "Lista todos os usuários",
+        "responses": {
+          "200": {
+            "description": "Sucesso"
           }
         }
       },
-      "/api/peixes/{id}": {
-        "get": {
-          "summary": "Obtém um peixe pelo ID de usuário.",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
+      "post": {
+        "summary": "Cria um novo usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
               "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Peixe encontrado",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Peixe"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
                   }
-                }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
               }
-            },
-            "404": {
-              "description": "Peixe não encontrado"
             }
           }
         },
-        "put": {
-          "summary": "Atualiza um peixe existente",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PeixeInput"
-                }
-              }
-            }
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso"
           },
-          "responses": {
-            "200": {
-              "description": "Peixe atualizado com sucesso"
-            },
-            "404": {
-              "description": "Peixe não encontrado"
-            }
-          }
-        },
-        "delete": {
-          "summary": "Deleta um peixe pelo ID",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "Peixe deletado com sucesso"
-            },
-            "404": {
-              "description": "Peixe não encontrado"
-            }
+          "400": {
+            "description": "O campo 'name' é obrigatório"
           }
         }
       }
     },
-    "components": {
-      "schemas": {
-        "Peixe": {
-          "type": "object",
-          "properties": {
-            "Especie": {
-              "type": "string"
-            },
-            "Nome": {
-              "type": "string"
-            },
-            "Tempo_alimentacao": {
-              "type": "string"
-            },
-            "Quantidade": {
-              "type": "number"
-            },
-            "Alimentacao": {
-              "type": "string"
-            },
-            "Imagem": {
-              "type": "string"
-            },
-            "ID_usuario": {
-              "type": "string"
+    "/usuarios/login": {
+      "post": {
+        "summary": "Realiza login de usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
             }
           }
         },
-        "PeixeInput": {
-          "type": "object",
-          "properties": {
-            "Especie": {
-              "type": "string"
-            },
-            "Nome": {
-              "type": "string"
-            },
-            "Tempo_alimentacao": {
-              "type": "string"
-            },
-            "Quantidade": {
-              "type": "number"
-            },
-            "Alimentacao": {
-              "type": "string"
-            },
-            "Imagem": {
-              "type": "string"
-            },
-            "ID_usuario": {
-              "type": "string"
-            }
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido"
           },
-          "required": [
-            "Especie",
-            "Nome",
-            "Tempo_alimentacao",
-            "Quantidade",
-            "Alimentacao",
-            "Imagem",
-            "ID_usuario"
-          ]
+          "401": {
+            "description": "Credenciais inválidas"
+          }
+        }
+      }
+    },
+    "/peixes": {
+      "get": {
+        "summary": "Lista todos os peixes",
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          }
+        }
+      }
+    },
+    "/peixes/{id}": {
+      "get": {
+        "summary": "Busca um peixe pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do peixe a ser buscado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "404": {
+            "description": "Peixe não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um peixe existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do peixe a ser atualizado"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "especie": {
+                    "type": "string"
+                  },
+                  "tamanho": {
+                    "type": "number"
+                  },
+                  "peso": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "especie",
+                  "tamanho",
+                  "peso"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Peixe atualizado com sucesso"
+          },
+          "404": {
+            "description": "Peixe não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um peixe existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do peixe a ser deletado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Peixe deletado com sucesso"
+          },
+          "404": {
+            "description": "Peixe não encontrado"
+          }
         }
       }
     }
   }
-  
+}
