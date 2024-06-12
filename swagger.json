@@ -8,6 +8,53 @@
     "basePath": "/api",
     "paths": {
       "/peixes": {
+        "get": {
+    "summary": "Listar todos os peixes",
+    "responses": {
+      "200": {
+        "description": "Lista de todos os peixes",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Especie": {
+                "type": "string",
+                "example": "Tilápia"
+              },
+              "Nome": {
+                "type": "string",
+                "example": "Nemo"
+              },
+              "Tempo_alimentacao": {
+                "type": "string",
+                "example": "2 vezes ao dia"
+              },
+              "Quantidade": {
+                "type": "integer",
+                "example": 5
+              },
+              "Alimentacao": {
+                "type": "string",
+                "example": "Ração"
+              },
+              "Imagem": {
+                "type": "string",
+                "example": "https://url_da_imagem.com/imagem.jpg"
+              },
+              "ID_usuario": {
+                "type": "string",
+                "example": "123456"
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Erro ao buscar peixes"
+      }
+    }
+  },
         "post": {
           "summary": "Adicionar um novo peixe",
           "parameters": [
