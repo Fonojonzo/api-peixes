@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     const user = new User(req.body);
     await user.save();
 
-    console.log('Usuário cadastrado:', user); // Log do usuário cadastrado
+    console.log('Usuário cadastrado:', user);
     res.status(201).json({ message: 'Usuário cadastrado com sucesso.' });
   } catch (error) {
     console.error('Erro ao cadastrar usuário:', error.message);
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    console.log('Usuário logado:', user._id); // Log do ID do usuário logado
+    console.log('Usuário logado:', user._id);
     res.status(200).json({ message: 'Login bem-sucedido', userId: user._id });
   } catch (error) {
     console.error('Erro ao verificar login:', error.message);
@@ -42,13 +42,12 @@ router.post('/login', async (req, res) => {
 router.get('/peixes/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log('User ID LOG:', userId); // Movido para depois da inicialização de userId
+    console.log('User ID LOG:', userId);
 
     const peixesUsuario = await Peixe.find({ ID_usuario: userId });
 
-    // Mapeie os IDs dos peixes para buscar os dados completos dos peixes
     const peixes = await Promise.all(peixesUsuario.map(async (peixeUsuario) => {
-      const peixe = await Peixe.findById(peixeUsuario._id); // Usando o _id do PeixesUsuario
+      const peixe = await Peixe.findById(peixeUsuario._id);
       return { ...peixe.toObject(), Nome: peixeUsuario.Nome };
     }));
 

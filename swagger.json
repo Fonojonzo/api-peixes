@@ -1,31 +1,54 @@
 {
-    "openapi": "3.0.0",
+    "swagger": "2.0",
     "info": {
-      "title": "API de Usuários e Peixes",
-      "description": "Documentação da API para gerenciamento de usuários e peixes",
-      "version": "1.0.0"
+      "title": "API de Gerenciamento de Peixes",
+      "version": "1.0.0",
+      "description": "API para gerenciar informações de peixes."
     },
-    "servers": [
-      {
-        "url": "https://api-peixes.vercel.app",
-        "description": "Servidor da API"
-      }
-    ],
+    "basePath": "/api",
     "paths": {
-      "/api/peixes": {
+      "/peixes": {
         "post": {
           "summary": "Adicionar um novo peixe",
-          "description": "Adiciona um novo peixe à coleção de peixes do usuário",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Peixe"
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Especie": {
+                    "type": "string",
+                    "example": "Tilápia"
+                  },
+                  "Nome": {
+                    "type": "string",
+                    "example": "Nemo"
+                  },
+                  "Tempo_alimentacao": {
+                    "type": "string",
+                    "example": "2 vezes ao dia"
+                  },
+                  "Quantidade": {
+                    "type": "integer",
+                    "example": 5
+                  },
+                  "Alimentacao": {
+                    "type": "string",
+                    "example": "Ração"
+                  },
+                  "Imagem": {
+                    "type": "string",
+                    "example": "https://url_da_imagem.com/imagem.jpg"
+                  },
+                  "ID_usuario": {
+                    "type": "string",
+                    "example": "123456"
+                  }
                 }
               }
             }
-          },
+          ],
           "responses": {
             "201": {
               "description": "Peixe adicionado com sucesso"
@@ -34,46 +57,144 @@
               "description": "Requisição inválida"
             },
             "500": {
-              "description": "Erro interno do servidor"
+              "description": "Erro ao adicionar peixe"
             }
           }
         }
-      }
-    },
-    "components": {
-      "schemas": {
-        "Peixe": {
-          "type": "object",
-          "required": [
-            "ID_usuario",
-            "Nome",
-            "Especie",
-            "Alimentacao",
-            "Quantidade",
-            "Tempo_alimentacao",
-            "Imagem"
+      },
+      "/peixes/{id}": {
+        "get": {
+          "summary": "Buscar um peixe por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do peixe a ser buscado"
+            }
           ],
-          "properties": {
-            "ID_usuario": {
-              "type": "string"
+          "responses": {
+            "200": {
+              "description": "Peixe encontrado",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Especie": {
+                    "type": "string",
+                    "example": "Tilápia"
+                  },
+                  "Nome": {
+                    "type": "string",
+                    "example": "Nemo"
+                  },
+                  "Tempo_alimentacao": {
+                    "type": "string",
+                    "example": "2 vezes ao dia"
+                  },
+                  "Quantidade": {
+                    "type": "integer",
+                    "example": 5
+                  },
+                  "Alimentacao": {
+                    "type": "string",
+                    "example": "Ração"
+                  },
+                  "Imagem": {
+                    "type": "string",
+                    "example": "https://url_da_imagem.com/imagem.jpg"
+                  },
+                  "ID_usuario": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
+              }
             },
-            "Nome": {
-              "type": "string"
+            "404": {
+              "description": "Peixe não encontrado"
             },
-            "Especie": {
-              "type": "string"
+            "500": {
+              "description": "Erro ao buscar peixe"
+            }
+          }
+        },
+        "put": {
+          "summary": "Atualizar um peixe por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do peixe a ser atualizado"
             },
-            "Alimentacao": {
-              "type": "string"
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Especie": {
+                    "type": "string",
+                    "example": "Tilápia"
+                  },
+                  "Nome": {
+                    "type": "string",
+                    "example": "Nemo"
+                  },
+                  "Tempo_alimentacao": {
+                    "type": "string",
+                    "example": "2 vezes ao dia"
+                  },
+                  "Quantidade": {
+                    "type": "integer",
+                    "example": 5
+                  },
+                  "Alimentacao": {
+                    "type": "string",
+                    "example": "Ração"
+                  },
+                  "Imagem": {
+                    "type": "string",
+                    "example": "https://url_da_imagem.com/imagem.jpg"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Peixe atualizado com sucesso"
             },
-            "Quantidade": {
-              "type": "number"
+            "404": {
+              "description": "Peixe não encontrado"
             },
-            "Tempo_alimentacao": {
-              "type": "string"
+            "500": {
+              "description": "Erro ao atualizar peixe"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Deletar um peixe por ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "ID do peixe a ser deletado"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Peixe deletado com sucesso"
             },
-            "Imagem": {
-              "type": "string"
+            "404": {
+              "description": "Peixe não encontrado"
+            },
+            "500": {
+              "description": "Erro ao deletar peixe"
             }
           }
         }
