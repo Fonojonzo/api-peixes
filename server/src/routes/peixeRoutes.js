@@ -69,5 +69,56 @@ router.get('/', async (req, res) => {
   }
 });
 
+// ATT PEIXE EXISTENTE
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem, ID_usuario } = req.body;
+
+    if (!Especie || !Nome || !Tempo_alimentacao || !Quantidade || !Alimentacao || !Imagem || !ID_usuario) {
+      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+    }
+
+    const peixeAtualizado = await Peixe.findByIdAndUpdate(id, {
+      Especie,
+      Nome,
+      Tempo_alimentacao,
+      Quantidade,
+      Alimentacao,
+      Imagem,
+      ID_usuario
+    }, { new: true });
+
+    if (!peixeAtualizado) {
+      return res.status(404).json({ message: 'Peixe não encontrado.' });
+    }
+
+    console.log('Peixe atualizado:', peixeAtualizado);
+    res.status(200).json({ message: 'Peixe atualizado com sucesso.', peixe: peixeAtualizado });
+  } catch (error) {
+    console.error('Erro ao atualizar peixe:', error);
+    res.status(500).json({ message: 'Erro ao atualizar peixe.', error: error.message });
+  }
+});
+
+// DELETAR PEXIE
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const peixeDeletado = await Peixe.findByIdAndDelete(id);
+
+    if (!peixeDeletado) {
+      return res.status(404).json({ message: 'Peixe não encontrado.' });
+    }
+
+    console.log('Peixe deletado:', peixeDeletado);
+    res.status(200).json({ message: 'Peixe deletado com sucesso.', peixe: peixeDeletado });
+  } catch (error) {
+    console.error('Erro ao deletar peixe:', error);
+    res.status(500).json({ message: 'Erro ao deletar peixe.', error: error.message });
+  }
+});
+
 
 export default router;

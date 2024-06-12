@@ -51,7 +51,7 @@
       },
       "/api/peixes/{id}": {
         "get": {
-          "summary": "Obtém um peixe pelo ID",
+          "summary": "Obtém um peixe pelo ID de usuário.",
           "parameters": [
             {
               "name": "id",
