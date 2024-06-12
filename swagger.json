@@ -7,7 +7,7 @@
     },
     "servers": [
       {
-        "url": "https://api-peixes-cxxg.vercel.app",
+        "url": "https://api-peixes.vercel.app",
         "description": "Servidor da API"
       }
     ],
