@@ -1,15 +1,11 @@
 import mongoose from 'mongoose';
 
-const peixeSchema = new mongoose.Schema({
+const peixesUsuarioSchema = new mongoose.Schema({
+  ID_peixes: { type: Number, required: true },
   ID_usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  Nome: { type: String, required: true },
-  Especie: { type: String, required: true },
-  Alimentacao: { type: String, required: true },
-  Quantidade_comida: { type: Number, required: true },
-  Vezes_comida_dia: { type: Number, required: true },
-  Imagem_url: { type: String, required: true }
+  Nome: { type: String, required: true }
 });
 
-const Peixe = mongoose.model('Peixe', peixeSchema);
+const PeixesUsuario = mongoose.model('PeixesUsuario', peixesUsuarioSchema, 'peixes_usuario');
 
-export default Peixe;
+export default PeixesUsuario;
