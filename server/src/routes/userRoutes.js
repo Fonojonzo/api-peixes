@@ -63,7 +63,6 @@ router.get('/peixes/:userId', async (req, res) => {
   }
 });
 
-
 router.post('/peixes', async (req, res) => {
   try {
     const { ID_peixes, ID_usuario, Nome } = req.body;
@@ -72,10 +71,14 @@ router.post('/peixes', async (req, res) => {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
     }
 
-    const novoPeixe = new PeixesUsuario({
-      ID_peixes,
+    const novoPeixe = new Peixe({
       ID_usuario,
-      Nome
+      Nome,
+      Especie,
+      Alimentacao,
+      Quantidade_comida,
+      Vezes_comida_dia,
+      Imagem_url
     });
 
     await novoPeixe.save();

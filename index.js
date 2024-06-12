@@ -16,11 +16,10 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 const corsOptions = {
- //origin: 'https://pi-peixes-front.netlify.app',
+  origin: 'https://pi-peixes-front.netlify.app',
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 // Conexão MongoDB
@@ -36,13 +35,7 @@ db.once('open', () => {
 });
 
 // Rota para o Swagger UI
-app.use('/api-docs', express.static(path.join(__dirname, 'public')));
-app.use('/swagger.json', express.static(path.join(__dirname, 'swagger.json')));
-
-// Endpoint para servir a documentação Swagger
-app.get('/api-docs', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'swagger.html'));
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger.json')));
 
 // Rotas
 import userRoutes from './server/src/routes/userRoutes.js';

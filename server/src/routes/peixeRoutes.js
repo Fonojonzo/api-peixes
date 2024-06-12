@@ -1,11 +1,9 @@
 import express from 'express';
 import Peixe from '../models/Peixe.js';
-import PeixesUsuario from '../models/Peixes_Usuario.js';
 
 const router = express.Router();
 
-
-// Rota pra buscar peixes de um usuário
+// Rota para buscar peixes de um usuário
 router.get('/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
@@ -22,7 +20,7 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// Rota para cria um novo peixe
+// Rota para criar um novo peixe
 router.post('/', async (req, res) => {
   const { ID_usuario, Nome, Especie, Alimentacao, Quantidade_comida, Vezes_comida_dia, Imagem_url } = req.body;
 
