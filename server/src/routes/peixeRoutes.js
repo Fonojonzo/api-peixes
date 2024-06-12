@@ -1,9 +1,9 @@
 import express from 'express';
 import Peixe from '../models/Peixe.js';
-import PeixesUsuario from '../models/Peixes_Usuario.js';
 
 const router = express.Router();
 
+//Get caminho -> /api/peixes/id
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -13,14 +13,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Peixes não encontrados para este usuário' });
     }
 
-    const peixesIds = peixesUsuario.map(peixe => peixe.ID_peixes);
-    const detalhesPeixes = await Peixe.find({ _id: { $in: peixesIds } });
-
-    if (!detalhesPeixes) {
-      return res.status(404).json({ message: 'Detalhes dos peixes não encontrados' });
-    }
-
-    res.status(200).json(detalhesPeixes);
+    res.status(200).json(peixesUsuario);
   } catch (error) {
     console.error('Erro ao buscar peixes:', error);
     res.status(500).json({ message: 'Erro ao buscar peixes' });
@@ -33,9 +26,9 @@ router.post('/', async (req, res) => {
     console.log('Rota de salvar peixes foi chamada.'); 
     
     const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem } = req.body;
-    const ID_usuario = req.session.idUsuario; // Assumindo que você armazena o ID do usuário na sessão
+    const ID_usuario = req.session.idUsuario;
 
-    // Verifica se todos os campos obrigatórios foram fornecidos
+    // Campos obrigatórios
     if (!Especie || !Nome || !Tempo_alimentacao || !Quantidade || !Alimentacao || !Imagem || !ID_usuario) {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
     }

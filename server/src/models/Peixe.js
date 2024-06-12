@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const peixeSchema = new mongoose.Schema({
+  ID_usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'usuarios',
+    required: true,
+  },
   Especie: {
     type: String,
     required: true,
