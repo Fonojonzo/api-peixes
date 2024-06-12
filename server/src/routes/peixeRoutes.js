@@ -26,7 +26,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/peixes', async (req, res) => {
+//Post
+router.post('/', async (req, res) => {
   try {
 
     console.log('Rota de salvar peixes foi chamada.'); 
