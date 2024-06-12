@@ -2,27 +2,27 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import userRoutes from './server/src/routes/userRoutes.js'; 
-import peixeRoutes from './server/src/routes/peixeRoutes.js'; // Importe o router de peixes
-//import SwaggerUI from 'swagger-ui'
-import SwaggerUI from 'swagger-ui-express'
-import swaggerDocument from './swagger.json' with { type: "json" };
+import path from 'path';
+import swaggerUi from 'swagger-ui-express';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 const corsOptions = {
-  //origin: 'https://pi-peixes-front.netlify.app',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: 'https://pi-peixes-front.netlify.app',
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
-app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 app.use(express.json());
 
-// MongoDB connection
+// Conexão MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -34,11 +34,22 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-// Adiciona as rotas ao aplicativo
-app.use('/api/users', userRoutes);
-app.use('/api/peixes', peixeRoutes); // Use o router de peixes
+// Rota para o Swagger UI
+app.use('/api-docs', express.static(path.join(__dirname, 'public')));
+app.use('/swagger.json', express.static(path.join(__dirname, 'swagger.json')));
 
-// Adicione este log para verificar se o servidor está ativo
+// Endpoint para servir a documentação Swagger
+app.get('/api-docs', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'swagger.html'));
+});
+
+// Rotas
+import userRoutes from './server/src/routes/userRoutes.js';
+import peixeRoutes from './server/src/routes/peixeRoutes.js';
+app.use('/api/users', userRoutes);
+app.use('/api/peixes', peixeRoutes);
+
+// Server ativo...
 app.listen(PORT, () => {
   console.log(`O servidor está ativo na porta ${PORT}`);
 });

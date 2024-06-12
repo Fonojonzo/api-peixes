@@ -1,67 +1,76 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "API de Gerenciamento de Usuários e Peixes",
-      "version": "1.0.0",
-      "description": "Documentação da API de gerenciamento de usuários e peixes"
+      "title": "API de Usuários e Peixes",
+      "description": "Documentação da API para gerenciamento de usuários e peixes",
+      "version": "1.0.0"
     },
     "servers": [
       {
-        "url": "https://api-peixes.vercel.app",
-        "description": "Servidor de produção"
+        "url": "https://api-peixes-cxxg.vercel.app",
+        "description": "Servidor da API"
       }
     ],
     "paths": {
-      "/api/users": {
+      "/api/users/": {
         "post": {
-          "summary": "Cadastra um novo usuário",
+          "summary": "Criar um novo usuário",
+          "description": "Cria um novo usuário com os detalhes fornecidos",
           "requestBody": {
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["name"]
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
           },
           "responses": {
             "201": {
-              "description": "Usuário cadastrado com sucesso"
+              "description": "Usuário criado com sucesso"
             },
             "400": {
-              "description": "O campo 'name' é obrigatório"
+              "description": "Requisição inválida"
             },
             "500": {
-              "description": "Erro ao cadastrar usuário"
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "get": {
+          "summary": "Obter todos os usuários",
+          "description": "Retorna uma lista de todos os usuários",
+          "responses": {
+            "200": {
+              "description": "Lista de usuários",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
             }
           }
         }
       },
       "/api/users/login": {
         "post": {
-          "summary": "Realiza login de usuário",
+          "summary": "Login de um usuário",
+          "description": "Autentica um usuário",
           "requestBody": {
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "email": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["email", "password"]
+                  "$ref": "#/components/schemas/UserLogin"
                 }
               }
             }
@@ -71,22 +80,22 @@
               "description": "Login bem-sucedido"
             },
             "401": {
-              "description": "Credenciais inválidas"
+              "description": "Não autorizado"
             },
             "500": {
-              "description": "Erro ao verificar login"
+              "description": "Erro interno do servidor"
             }
           }
         }
       },
       "/api/users/peixes/{userId}": {
         "get": {
-          "summary": "Busca os peixes de um usuário",
+          "summary": "Obter peixes por ID de usuário",
+          "description": "Retorna uma lista de peixes associados a um ID de usuário específico",
           "parameters": [
             {
               "name": "userId",
               "in": "path",
-              "description": "ID do usuário",
               "required": true,
               "schema": {
                 "type": "string"
@@ -95,58 +104,110 @@
           ],
           "responses": {
             "200": {
-              "description": "Sucesso",
+              "description": "Lista de peixes",
               "content": {
                 "application/json": {
                   "schema": {
                     "type": "array",
                     "items": {
-                      "type": "object"
+                      "$ref": "#/components/schemas/Peixe"
                     }
                   }
                 }
               }
             },
             "500": {
-              "description": "Erro ao buscar peixes"
+              "description": "Erro interno do servidor"
             }
           }
         }
       },
-      "/api/users/peixes": {
-        "post": {
-          "summary": "Adiciona um novo peixe ao usuário",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "ID_peixes": {
-                      "type": "string"
-                    },
-                    "ID_usuario": {
-                      "type": "string"
-                    },
-                    "Nome": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["ID_peixes", "ID_usuario", "Nome"]
-                }
+      "/api/peixes/{id}": {
+        "get": {
+          "summary": "Obter detalhes de peixe por ID",
+          "description": "Retorna detalhes de um peixe associado a um ID específico",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
               }
             }
-          },
+          ],
           "responses": {
-            "201": {
-              "description": "Peixe adicionado com sucesso"
+            "200": {
+              "description": "Detalhes do peixe",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Peixe"
+                  }
+                }
+              }
             },
-            "400": {
-              "description": "Todos os campos são obrigatórios"
+            "404": {
+              "description": "Peixe não encontrado"
             },
             "500": {
-              "description": "Erro ao adicionar peixe"
+              "description": "Erro interno do servidor"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "required": [
+            "name",
+            "email",
+            "password"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "UserLogin": {
+          "type": "object",
+          "required": [
+            "email",
+            "password"
+          ],
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "Peixe": {
+          "type": "object",
+          "required": [
+            "ID_usuario",
+            "ID_peixes"
+          ],
+          "properties": {
+            "ID_usuario": {
+              "type": "string"
+            },
+            "ID_peixes": {
+              "type": "string"
+            },
+            "Nome": {
+              "type": "string"
             }
           }
         }

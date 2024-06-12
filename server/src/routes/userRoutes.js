@@ -5,25 +5,6 @@ import Peixe from '../models/Peixe.js';
 
 const router = express.Router();
 
-/**
- * @swagger
- * /users/:
- *   post:
- *     summary: Create a new user
- *     description: Creates a new user with the provided details
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/definitions/User'
- *     responses:
- *       201:
- *         description: User created successfully
- *       400:
- *         description: Bad Request
- *       500:
- *         description: Internal server error
- */
 router.post('/', async (req, res) => {
   try {
     if (!req.body.name) {
@@ -40,7 +21,6 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: 'Erro ao cadastrar usuário.', error: error.message });
   }
 });
-
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -105,6 +85,16 @@ router.post('/peixes', async (req, res) => {
   } catch (error) {
     console.error('Erro ao adicionar peixe:', error.message);
     res.status(500).json({ message: 'Erro ao adicionar peixe.', error: error.message });
+  }
+});
+
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error.message);
+    res.status(500).json({ message: 'Erro ao buscar usuários.', error: error.message });
   }
 });
 
