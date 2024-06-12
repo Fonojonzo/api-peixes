@@ -52,5 +52,22 @@ router.post('/', async (req, res) => {
   }
 });
 
+// EndpOINT TODOS OS PEIXE SWAGGER
+router.get('/', async (req, res) => {
+  try {
+    const peixes = await Peixe.find();
+
+    if (peixes.length === 0) {
+      return res.status(404).json({ message: 'Nenhum peixe encontrado' });
+    }
+
+    console.log('Todos os peixes encontrados:', peixes);
+    res.status(200).json(peixes);
+  } catch (error) {
+    console.error('Erro ao buscar todos os peixes:', error);
+    res.status(500).json({ message: 'Erro ao buscar todos os peixes' });
+  }
+});
+
 
 export default router;
