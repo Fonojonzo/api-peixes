@@ -11,9 +11,20 @@
       "description": "Servidor de produção"
     }
   ],
+  "tags": [
+    {
+      "name": "Usuários",
+      "description": "Operações relacionadas a usuários"
+    },
+    {
+      "name": "Peixes",
+      "description": "Operações relacionadas a peixes"
+    }
+  ],
   "paths": {
     "/usuarios": {
       "get": {
+        "tags": ["Usuários"],
         "summary": "Lista todos os usuários",
         "responses": {
           "200": {
@@ -22,6 +33,7 @@
         }
       },
       "post": {
+        "tags": ["Usuários"],
         "summary": "Cria um novo usuário",
         "requestBody": {
           "content": {
@@ -60,6 +72,7 @@
     },
     "/usuarios/login": {
       "post": {
+        "tags": ["Usuários"],
         "summary": "Realiza login de usuário",
         "requestBody": {
           "content": {
@@ -94,6 +107,7 @@
     },
     "/peixes": {
       "get": {
+        "tags": ["Peixes"],
         "summary": "Lista todos os peixes",
         "responses": {
           "200": {
@@ -104,6 +118,7 @@
     },
     "/peixes/{id}": {
       "get": {
+        "tags": ["Peixes"],
         "summary": "Busca um peixe pelo ID",
         "parameters": [
           {
@@ -126,6 +141,7 @@
         }
       },
       "put": {
+        "tags": ["Peixes"],
         "summary": "Atualiza um peixe existente",
         "parameters": [
           {
@@ -177,6 +193,7 @@
         }
       },
       "delete": {
+        "tags": ["Peixes"],
         "summary": "Deleta um peixe existente",
         "parameters": [
           {
