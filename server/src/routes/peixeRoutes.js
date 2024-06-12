@@ -30,16 +30,17 @@ router.get('/:id', async (req, res) => {
 //Post caminho -> /api/peixes
 router.post('/', async (req, res) => {
   try {
-
     console.log('Rota de salvar peixes foi chamada.'); 
     
     const { Especie, Nome, Tempo_alimentacao, Quantidade, Alimentacao, Imagem, ID_usuario } = req.body;
 
+    // Verifica se todos os campos obrigatórios foram fornecidos
     if (!Especie || !Nome || !Tempo_alimentacao || !Quantidade || !Alimentacao || !Imagem || !ID_usuario) {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
     }
 
-    const novoPeixe = new PeixesUsuario({
+    // Cria um novo peixe com os campos fornecidos
+    const novoPeixe = new Peixe({
       Especie,
       Nome,
       Tempo_alimentacao,
@@ -49,6 +50,7 @@ router.post('/', async (req, res) => {
       ID_usuario
     });
 
+    // Salva o novo peixe no banco de dados
     await novoPeixe.save();
 
     console.log('Peixe adicionado:', novoPeixe);
