@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
     }
 
-    const novoPeixe = new PeixesUsuario({
+    const novoPeixe = new Peixe({
       Especie,
       Nome,
       Tempo_alimentacao,
