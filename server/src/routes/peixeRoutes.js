@@ -4,7 +4,8 @@ import PeixesUsuario from '../models/Peixes_Usuario.js';
 
 const router = express.Router();
 
-// Rota para buscar peixes de um usuário
+
+// Rota pra buscar peixes de um usuário
 router.get('/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
@@ -14,42 +15,37 @@ router.get('/:userId', async (req, res) => {
       return res.status(404).json({ message: 'Peixes não encontrados para este usuário' });
     }
 
-    const peixesIds = peixesUsuario.map(peixe => peixe.ID_peixes);
-    const detalhesPeixes = await Peixe.find({ _id: { $in: peixesIds } });
-
-    if (!detalhesPeixes.length) {
-      return res.status(404).json({ message: 'Detalhes dos peixes não encontrados' });
-    }
-
-    res.status(200).json(detalhesPeixes);
+    res.status(200).json(peixesUsuario);
   } catch (error) {
     console.error('Erro ao buscar peixes:', error);
     res.status(500).json({ message: 'Erro ao buscar peixes' });
   }
 });
 
-// Rota para criar um novo peixe
+// Rota para cria um novo peixe
 router.post('/', async (req, res) => {
+  const { ID_usuario, Nome, Especie, Alimentacao, Quantidade_comida, Vezes_comida_dia, Imagem_url } = req.body;
+
+  // Verificar se todos os campos obrigatórios foram fornecidos
+  if (!ID_usuario || !Nome || !Especie || !Alimentacao || !Quantidade_comida || !Vezes_comida_dia || !Imagem_url) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+  }
+
   try {
-    const { ID_usuario, Nome } = req.body;
-
-    if (!ID_usuario || !Nome) {
-      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
-    }
-
-    const novoPeixe = new PeixesUsuario({
-      ID_peixes: new mongoose.Types.ObjectId(),
+    const novoPeixe = new Peixe({
       ID_usuario,
-      Nome
+      Nome,
+      Especie,
+      Alimentacao,
+      Quantidade_comida,
+      Vezes_comida_dia,
+      Imagem_url
     });
 
     await novoPeixe.save();
-
-    console.log('Peixe adicionado:', novoPeixe);
-    res.status(201).json({ message: 'Peixe adicionado com sucesso.', peixe: novoPeixe });
+    res.status(201).json(novoPeixe);
   } catch (error) {
-    console.error('Erro ao adicionar peixe:', error.message);
-    res.status(500).json({ message: 'Erro ao adicionar peixe.', error: error.message });
+    res.status(500).json({ error: 'Erro ao criar o peixe' });
   }
 });
 
@@ -57,26 +53,30 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { ID_usuario, Nome } = req.body;
+    const { ID_usuario, Nome, Especie, Alimentacao, Quantidade_comida, Vezes_comida_dia, Imagem_url } = req.body;
 
-    if (!ID_usuario || !Nome) {
-      return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+    if (!ID_usuario || !Nome || !Especie || !Alimentacao || !Quantidade_comida || !Vezes_comida_dia || !Imagem_url) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
     }
 
-    const peixeAtualizado = await PeixesUsuario.findByIdAndUpdate(id, {
+    const peixeAtualizado = await Peixe.findByIdAndUpdate(id, {
       ID_usuario,
-      Nome
+      Nome,
+      Especie,
+      Alimentacao,
+      Quantidade_comida,
+      Vezes_comida_dia,
+      Imagem_url
     }, { new: true });
 
     if (!peixeAtualizado) {
-      return res.status(404).json({ message: 'Peixe não encontrado.' });
+      return res.status(404).json({ message: 'Peixe não encontrado' });
     }
 
-    console.log('Peixe atualizado:', peixeAtualizado);
-    res.status(200).json({ message: 'Peixe atualizado com sucesso.', peixe: peixeAtualizado });
+    res.status(200).json(peixeAtualizado);
   } catch (error) {
-    console.error('Erro ao atualizar peixe:', error.message);
-    res.status(500).json({ message: 'Erro ao atualizar peixe.', error: error.message });
+    console.error('Erro ao atualizar peixe:', error);
+    res.status(500).json({ error: 'Erro ao atualizar peixe' });
   }
 });
 
@@ -84,23 +84,11 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { ID_usuario } = req.body;
-
-    if (!ID_usuario) {
-      return res.status(400).json({ message: 'O campo "ID_usuario" é obrigatório.' });
-    }
-
-    const peixeDeletado = await PeixesUsuario.findOneAndDelete({ _id: id, ID_usuario });
-
-    if (!peixeDeletado) {
-      return res.status(404).json({ message: 'Peixe não encontrado.' });
-    }
-
-    console.log('Peixe deletado:', peixeDeletado);
-    res.status(200).json({ message: 'Peixe deletado com sucesso.' });
+    await Peixe.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Peixe deletado com sucesso' });
   } catch (error) {
-    console.error('Erro ao deletar peixe:', error.message);
-    res.status(500).json({ message: 'Erro ao deletar peixe.', error: error.message });
+    console.error('Erro ao deletar peixe:', error);
+    res.status(500).json({ error: 'Erro ao deletar peixe' });
   }
 });
 
