@@ -10,6 +10,6 @@ const peixeSchema = new mongoose.Schema({
   Imagem: { type: String, required: true },
 });
 
-const Peixe = mongoose.model('Peixe', peixeSchema);
+const Peixe = mongoose.model('PeixesUsuario', peixeSchema);
 
 export default Peixe;
