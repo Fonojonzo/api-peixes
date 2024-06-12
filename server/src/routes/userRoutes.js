@@ -49,8 +49,7 @@ router.get('/peixes/:userId', async (req, res) => {
 
     // Mapeie os IDs dos peixes para buscar os dados completos dos peixes
     const peixes = await Promise.all(peixesUsuario.map(async (peixeUsuario) => {
-      const peixe = await Peixe.findById(peixeUsuario.ID_peixes.toString()); // Converta para string
-      console.log(peixeUsuario.Nome)
+      const peixe = await Peixe.findById(peixeUsuario._id); // Usando o _id do PeixesUsuario
       return { ...peixe.toObject(), Nome: peixeUsuario.Nome };
     }));
 
@@ -62,7 +61,6 @@ router.get('/peixes/:userId', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch peixes', error: error.message });
   }
 });
-
 
 router.get('/', async (req, res) => {
   try {
